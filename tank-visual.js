@@ -13,7 +13,7 @@
           <div class="tank-body"><div class="tank-liquid" id="tankLiquid"><div class="tank-wave"></div></div><div class="tank-highlight"></div></div>
           <div class="tank-cap"></div>
         </div>
-        <div class="tank-info"><b id="tankLevelText">Aguardando leitura</b><span id="tankLevelLiters">Informe a régua para visualizar o nível.</span></div>
+        <div class="tank-info"><b id="tankLevelText">Aguardando leitura</b><span id="tankLevelLiters">Informe a régua para visualizar o nível.</span><strong id="tankLowAlert" style="display:none">⚠️ ALERTA: ABAIXO DE 1.500 L</strong></div>
       </div>`;
     box.insertAdjacentElement('afterend',wrap);
 
@@ -25,12 +25,18 @@
       const level=document.getElementById('tankLevelText');
       const liters=document.getElementById('liters')?.textContent;
       const out=document.getElementById('tankLevelLiters');
+      const alert=document.getElementById('tankLowAlert');
       if(!liquid||!level||!out)return;
-      if(!Number.isFinite(cm)||cm<0){liquid.style.height='0%';level.textContent='Aguardando leitura';out.textContent='Informe a régua para visualizar o nível.';return;}
+      if(!Number.isFinite(cm)||cm<0){liquid.style.height='0%';level.textContent='Aguardando leitura';out.textContent='Informe a régua para visualizar o nível.';if(alert)alert.style.display='none';return;}
       const pct=Math.max(0,Math.min(100,cm/254*100));
       liquid.style.height=pct+'%';
       level.textContent=cm+' cm de altura';
       out.textContent=(liters&&liters!=='—')?('Volume calculado: '+liters+' L'):'Nível visual aproximado no tanque.';
+      const volume=parseFloat((liters||'').replace(/\./g,'').replace(',','.'));
+      const low=Number.isFinite(volume)&&volume<1500;
+      liquid.classList.toggle('tank-low',low);
+      wrap.classList.toggle('tank-alert-low',low);
+      if(alert)alert.style.display=low?'block':'none';
     }
     document.addEventListener('input',e=>{if(e.target?.id==='ruler'||e.target?.id==='r1')setTimeout(update,0)});
     document.addEventListener('click',e=>{if(e.target.closest('.tank-btn')||e.target.closest('.quick-values button'))setTimeout(update,30)});
