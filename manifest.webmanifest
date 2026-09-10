@@ -1,0 +1,13 @@
+{
+  "name": "Medidor de Tanques",
+  "short_name": "Medidor Tanques",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f8fc",
+  "theme_color": "#0b63ce",
+  "description": "Medidor de tanques de combustível por leitura da régua.",
+  "icons": [
+    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

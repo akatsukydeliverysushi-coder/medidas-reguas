@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b63ce">
+<meta name="description" content="Medidor de tanques de combustível por leitura da régua.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Medidor de Tanques">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="stylesheet" href="style.css">
+<title>Medidor de Tanques</title>
+</head>
+<body>
+<div class="app-shell">
+<header class="hero">
+  <div class="hero-inner">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">⛽</div>
+      <div><div class="eyebrow">JOÃO LUIS & MEIRE</div><h1>Medidor de Tanques</h1><p>Litros pela leitura da régua</p></div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="shareBtn" title="Compartilhar" aria-label="Compartilhar">↗</button>
+      <button class="install-btn" id="installBtn" hidden>＋ Instalar app</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="status-strip">
+    <div><span class="status-dot"></span><b id="onlineStatus">Pronto para medir</b></div>
+    <span class="offline-badge">⚡ Funciona offline</span>
+  </section>
+
+  <div class="layout">
+    <section class="card calculator-card">
+      <div class="section-title"><span class="step">1</span><div><h2>Selecione o tanque</h2><p>Escolha a tabela correspondente.</p></div></div>
+      <div class="tank-buttons" id="tankButtons">
+        <button type="button" class="tank-btn" data-model="10000"><span class="tank-icon">◉</span><span><b>10.000 L</b><small>Tanque único</small></span></button>
+        <button type="button" class="tank-btn" data-model="15000"><span class="tank-icon">◉</span><span><b>15.000 L</b><small>Tanque único</small></span></button>
+        <button type="button" class="tank-btn" data-model="20000"><span class="tank-icon">◉</span><span><b>20.000 L</b><small>Tanque único</small></span></button>
+        <button type="button" class="tank-btn" data-model="7500"><span class="tank-icon">◉</span><span><b>7.500 L</b><small>Por compartimento</small></span></button>
+        <button type="button" class="tank-btn featured" data-model="30000"><span class="tank-icon">◉</span><span><b>30.000 L</b><small>Bipartido 15/15 • 1 compartimento</small></span></button>
+      </div>
+
+      <div class="selected-reference" id="referenceCard">
+        <div class="ref-label">REFERÊNCIA SELECIONADA</div>
+        <strong id="referenceName">10.000 L</strong>
+        <span id="referenceDetails">Tanque único — tabela de medição.</span>
+      </div>
+
+      <input type="hidden" id="model" value="10000">
+
+      <div class="section-title second"><span class="step">2</span><div><h2>Informe a régua</h2><p>Digite a altura em centímetros.</p></div></div>
+      <div id="single">
+        <label class="input-label" for="ruler">Altura da régua <span>cm</span></label>
+        <div class="measure-input"><button type="button" class="round-btn" id="minusBtn">−</button><input id="ruler" type="number" min="0" max="254" step="1" inputmode="numeric" placeholder="Ex.: 53"><span>cm</span><button type="button" class="round-btn" id="plusBtn">＋</button></div>
+      </div>
+      <div id="dual" hidden>
+        <label class="input-label" for="r1">Régua do compartimento <span>cm</span></label>
+        <div class="measure-input"><button type="button" class="round-btn" id="minusBtn30">−</button><input id="r1" type="number" min="0" max="250" step="1" inputmode="numeric" placeholder="Ex.: 156"><span>cm</span><button type="button" class="round-btn" id="plusBtn30">＋</button></div>
+        <p class="field-note">O tanque 30.000 L é bipartido 15/15. A leitura abaixo é de <b>um compartimento</b>.</p>
+      </div>
+
+      <div class="quick-values"><button data-value="17">17 cm</button><button data-value="53">53 cm</button><button data-value="100">100 cm</button><button data-value="156">156 cm</button></div>
+      <div class="actions"><button class="primary" id="calcBtn">Calcular volume</button><button class="secondary" id="clearBtn">Limpar</button></div>
+
+      <div class="tip"><b>💡 Como funciona</b><p>Selecione o tanque, informe a altura da régua e o aplicativo consulta a tabela correspondente. No 30.000 L, a tabela usa a dezena na linha e a unidade na coluna.</p></div>
+    </section>
+
+    <section class="card result-card" aria-live="polite">
+      <div class="result-head"><div><span class="result-label" id="labelResult">VOLUME NO TANQUE</span><div class="selected-chip" id="modelOut">10.000 L</div></div><button class="copy-btn" id="copyBtn" title="Copiar resultado">⧉</button></div>
+      <div class="big-result"><span id="liters">—</span><small>L</small></div>
+      <div class="progress"><div class="progress-fill" id="fill"></div></div>
+      <div class="percent-row"><span id="pct">Informe a régua.</span><span id="detailOut">Tabela padrão</span></div>
+      <div class="stats"><div><span>CAPACIDADE</span><b id="capacityOut">10.000 L</b></div><div><span>RESTANTE</span><b id="remainingOut">—</b></div></div>
+      <div id="totalBox" hidden></div><div class="check-example"><span>✓</span><div><b>Referência conferida</b><p id="exampleOut">17 cm = 897 L • 53 cm = 4.714 L • 156 cm = 20.089 L</p></div></div>
+    </section>
+  </div>
+
+  <section class="card install-card" id="installCard">
+    <div class="install-icon">📲</div><div class="install-copy"><h2>Adicionar à tela inicial</h2><p>Instale o Medidor de Tanques no celular para abrir como um aplicativo, inclusive sem internet.</p></div>
+    <button class="secondary" id="howInstallBtn">Como instalar</button>
+  </section>
+
+  <section class="card history-card">
+    <div class="history-head"><div><h2>Últimas medições</h2><p>Ficam salvas somente neste dispositivo.</p></div><button class="text-btn" id="clearHistoryBtn">Apagar</button></div>
+    <div id="historyList" class="history-list"><div class="empty-history">Nenhuma medição salva ainda.</div></div>
+  </section>
+
+  <footer><b>Medidor de Tanques</b> • Tabelas conforme as referências fornecidas • PWA para celular e computador</footer>
+<footer class="app-footer">
+          <div><strong>Desenvolvido por Marcio Vasconcelos</strong></div>
+          <div>📞 (19) 9 9504-4272</div>
+        </footer>
+        </main>
+</div>
+
+<div class="modal" id="installModal" hidden><div class="modal-box"><button class="modal-close" id="closeModal">×</button><h2>Adicionar à tela inicial</h2><div class="install-steps"><p><b>Android / Chrome</b><br>Toque em <b>Instalar app</b> quando aparecer, ou abra o menu ⋮ e escolha <b>Adicionar à tela inicial</b>.</p><p><b>iPhone / Safari</b><br>Toque em <b>Compartilhar</b> → <b>Adicionar à Tela de Início</b>.</p></div><button class="primary" id="modalInstallBtn" hidden>＋ Instalar agora</button></div></div>
+
+<script src="app.js"></script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
+</body>
+</html>
