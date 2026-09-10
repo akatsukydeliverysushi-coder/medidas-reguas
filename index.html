@@ -62,7 +62,7 @@
       </div>
       <div id="dual" hidden>
         <label class="input-label" for="r1">Régua do compartimento <span>cm</span></label>
-        <div class="measure-input"><button type="button" class="round-btn" id="minusBtn30">−</button><input id="r1" type="number" min="0" max="250" step="1" inputmode="numeric" placeholder="Ex.: 156"><span>cm</span><button type="button" class="round-btn" id="plusBtn30">＋</button></div>
+        <div class="measure-input"><button type="button" class="round-btn" id="minusBtn30">−</button><input id="r1" type="number" min="0" max="254" step="1" inputmode="numeric" placeholder="Ex.: 156"><span>cm</span><button type="button" class="round-btn" id="plusBtn30">＋</button></div>
         <p class="field-note">O tanque 30.000 L é bipartido 15/15. A leitura abaixo é de <b>um compartimento</b>.</p>
       </div>
 
@@ -78,7 +78,7 @@
       <div class="progress"><div class="progress-fill" id="fill"></div></div>
       <div class="percent-row"><span id="pct">Informe a régua.</span><span id="detailOut">Tabela padrão</span></div>
       <div class="stats"><div><span>CAPACIDADE</span><b id="capacityOut">10.000 L</b></div><div><span>RESTANTE</span><b id="remainingOut">—</b></div></div>
-      <div id="totalBox" hidden></div><div class="check-example"><span>✓</span><div><b>Referência conferida</b><p id="exampleOut">17 cm = 897 L • 53 cm = 4.714 L • 156 cm = 20.089 L</p></div></div>
+      <div id="totalBox" hidden></div><div class="check-example"><span>✓</span><div><b>Referência conferida</b><p id="exampleOut">53 cm = 2.352 L • 156 cm = 10.023 L</p></div></div>
     </section>
   </div>
 
@@ -103,6 +103,7 @@
 <div class="modal" id="installModal" hidden><div class="modal-box"><button class="modal-close" id="closeModal">×</button><h2>Adicionar à tela inicial</h2><div class="install-steps"><p><b>Android / Chrome</b><br>Toque em <b>Instalar app</b> quando aparecer, ou abra o menu ⋮ e escolha <b>Adicionar à tela inicial</b>.</p><p><b>iPhone / Safari</b><br>Toque em <b>Compartilhar</b> → <b>Adicionar à Tela de Início</b>.</p></div><button class="primary" id="modalInstallBtn" hidden>＋ Instalar agora</button></div></div>
 
 <script src="app.js"></script>
+<script src="t30-fix.js"></script>
 <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
 </body>
 </html>
